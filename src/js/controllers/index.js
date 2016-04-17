@@ -621,7 +621,8 @@ angular.module('copayApp.controllers').controller('indexController', function($r
     var config = configService.getSync();
     config.colorFor = config.colorFor || {};
     self.backgroundColor = config.colorFor[self.walletId] || '#4A90E2';
-    self.homepageUrl = $sce.trustAsResourceUrl("http://dgbwallet-cms.herokuapp.com/pages/dgbwallet?bgcolor=" + self.backgroundColor.replace("#",''));
+    self.homepageUrl = $sce.trustAsResourceUrl("https://digibytegaming.com/pages/wallet_ad");
+    //self.homepageUrl = $sce.trustAsResourceUrl("http://dgbwallet-cms.herokuapp.com/pages/dgbwallet?bgcolor=" + self.backgroundColor.replace("#",''));
     var fc = profileService.focusedClient;
     fc.backgroundColor = self.backgroundColor;
     if (isCordova && StatusBar.isVisible) {
@@ -635,7 +636,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
     self.backgroundTheme = config.themeFor[self.walletId];
     var fc = profileService.focusedClient;
     fc.backgroundTheme = self.backgroundTheme;
-  }; 
+  };
 
   self.setBalance = function(balance) {
     if (!balance) return;
@@ -1222,7 +1223,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
     $timeout(function() {
       $rootScope.$apply();
     });
-  }); 
+  });
 
   $rootScope.$on('Local/AliasUpdated', function(event) {
     self.updateAlias();
