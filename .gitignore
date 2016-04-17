@@ -23,7 +23,7 @@ webkitbuilds/*
 
 
 # chrome extensions
-browser-extensions/chrome/copay-chrome-extension
+browser-extensions/chrome/DigiByte-Gaming-chrome-extension
 browser-extensions/chrome/copay-chrome-extension.zip
 browser-extensions/chrome/copay-chrome-extension.zip.sig
 
