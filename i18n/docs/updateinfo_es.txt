@@ -1,0 +1,4 @@
+* Mejora de algunos iconos
+* Cambios menores de UX en recibir
+* Actualización de traducciones
+* Corrección de errores

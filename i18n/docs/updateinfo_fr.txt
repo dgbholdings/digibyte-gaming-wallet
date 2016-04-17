@@ -1,0 +1,4 @@
+* Amélioration de certaines icônes
+* Amélioration minime de l'interface graphique sur "Recevoir"
+* Mise à jour des traductions
+* Corrections de bugs

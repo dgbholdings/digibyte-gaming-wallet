@@ -1,0 +1,28 @@
+{
+  "name": "copay",
+  "keywords": [
+    "copay",
+    "wallet",
+    "multisignature",
+    "bitcore"
+  ],
+  "dependencies": {
+    "angular": "1.4.6",
+    "angular-bitcore-wallet-client": "git://github.com/digibyte/angular-bitcore-wallet-client.git#1e3299a24b6fdef66e2b40eb726d5aea48c8da3b",
+    "angular-foundation": "0.7.0",
+    "angular-gettext": "2.1.2",
+    "angular-moment": "0.10.1",
+    "angular-qrcode": "monospaced/angular-qrcode#~6.0.3",
+    "angular-ui-router": "0.2.15",
+    "angular-ui-switch": "0.1.1",
+    "animate.css": "3.4.0",
+    "fastclick": "1.0.6",
+    "foundation": "5.5.2",
+    "foundation-icon-fonts": "*",
+    "moment": "2.10.3",
+    "ng-lodash": "0.2.3",
+    "qrcode-decoder-js": "*",
+    "trezor-connect": "~1.0.1"
+  }
+}
+

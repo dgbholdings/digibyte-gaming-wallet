@@ -1,0 +1,50 @@
+
+<div 
+  class="topbar-container" 
+  ng-include="'views/includes/topbar.html'"
+  ng-init="titleSection='Global preferences'; closeToHome = true; noColor = true">
+</div>
+
+
+<div class="content preferences" ng-controller="preferencesGlobalController as prefGlobal" ng-init="prefGlobal.init()">
+  <h4></h4>
+  <ul class="no-bullet m0 ">
+    <li ng-click="$root.go('preferencesLanguage')">
+      <div class="right text-gray">
+        {{prefGlobal.currentLanguageName|translate}}
+        <i class="icon-arrow-right3 size-24"></i>
+      </div>
+      <div translate>Language</div>
+    </li>
+  </ul> 
+  <h4></h4>
+  <ul class="no-bullet m0 ">
+    <li ng-click="$root.go('preferencesAltCurrency')">
+      <div class="right text-gray">
+        {{prefGlobal.selectedAlternative.name}}
+        <i class="icon-arrow-right3 size-24"></i>
+      </div>
+      <div translate>Alternative Currency</div>
+    </li>
+  </ul>
+  <h4></h4>
+  <div ng-show="index.usePushNotifications">
+    <h4></h4>
+    <ul class="no-bullet m0">
+      <li>
+        <switch id="push-notifications" name="pushNotifications" ng-model="pushNotifications" class="green right"></switch>
+        <div translate>Enable push notifications</div>
+      </li>
+    </ul>
+  </div>
+  <h4></h4>
+  <ul class="no-bullet m0">
+    <li ng-click="$root.go('about')">
+      <i class="icon-arrow-right3 size-24 right text-gray"></i>  
+      <div translate>About DigiByte Gaming wallet</div>
+    </li>
+  </ul>
+  <h4></h4>
+
+</div>
+<div class="extra-margin-bottom"></div>

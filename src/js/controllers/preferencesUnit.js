@@ -1,0 +1,48 @@
+'use strict';
+
+angular.module('copayApp.controllers').controller('preferencesUnitController',
+  function($scope, $timeout, $log, configService, go) {
+    var config = configService.getSync();
+    this.unitName = config.wallet.settings.unitName;
+    this.unitOpts = [
+      // TODO : add Satoshis to bitcore-wallet-client formatAmount()
+      // {
+      //     name: 'Satoshis (100,000,000 satoshis = 1BTC)',
+      //     shortName: 'SAT',
+      //     value: 1,
+      //     decimals: 0,
+      //     code: 'sat',
+      //   }, 
+      {
+        name: 'DGB',
+        shortName: 'BTC',
+        value: 100000000,
+        decimals: 8,
+        code: 'btc',
+      }
+    ];
+
+    this.save = function(newUnit) {
+      var opts = {
+        wallet: {
+          settings: {
+            unitName: newUnit.shortName,
+            unitToSatoshi: newUnit.value,
+            unitDecimals: newUnit.decimals,
+            unitCode: newUnit.code,
+          }
+        }
+      };
+      this.unitName = newUnit.shortName;
+
+      configService.set(opts, function(err) {
+        if (err) $log.warn(err);
+        go.preferencesGlobal();
+        $scope.$emit('Local/UnitSettingUpdated');
+        $timeout(function() {
+          $scope.$apply();
+        }, 100);
+      });
+
+    };
+  });
