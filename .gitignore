@@ -24,8 +24,8 @@ webkitbuilds/*
 
 # chrome extensions
 browser-extensions/chrome/DigiByte-Gaming-chrome-extension
-browser-extensions/chrome/copay-chrome-extension.zip
-browser-extensions/chrome/copay-chrome-extension.zip.sig
+browser-extensions/chrome/DigiByte-Gaming-chrome-extension.zip
+browser-extensions/chrome/DigiByte-Gaming-chrome-extension.zip.sig
 
 # Logs
 logs
