@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('copayApp.controllers').controller('indexController', function($rootScope, $scope, $log, $filter, $timeout, $sce, pushNotificationsService, lodash, go, profileService, configService, isCordova, rateService, storageService, addressService, gettext, gettextCatalog, amMoment, nodeWebkit, addonManager, feeService, isChromeApp, bwsError, txFormatService, uxLanguage, $state, glideraService, isMobile, addressbookService) {
+angular.module('copayApp.controllers').controller('indexController', function($rootScope, $scope, $log, $filter, $timeout, $interval, $sce, pushNotificationsService, lodash, go, profileService, configService, isCordova, rateService, storageService, addressService, gettext, gettextCatalog, amMoment, nodeWebkit, addonManager, feeService, isChromeApp, bwsError, txFormatService, uxLanguage, $state, glideraService, isMobile, addressbookService) {
   var self = this;
   var SOFT_CONFIRMATION_LIMIT = 12;
   self.isCordova = isCordova;
@@ -630,32 +630,47 @@ angular.module('copayApp.controllers').controller('indexController', function($r
   };
 
   self.loadAdvertisement = function() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://digibytegaming.com/pages/wallet_ad', true);
-    xhr.responseType = 'application/json';
-    xhr.onload = function(e) {
-      var data = JSON.parse(this.response);
-      if (!data) return;
-      var adverts = document.getElementById('advert-div');
-      var params;
-      if (data.target_url && data.target_url.lastIndexOf('/')+1 < data.target_url.length) params = data.target_url.substring(data.target_url.lastIndexOf('/')+1, data.target_url.length);
-      var a = document.createElement('a');
-      a.href= $sce.trustAsResourceUrl('http://digibytegaming.com/ads/redirect?'+ (params ? params + '&' : '') + 'ad_token='+ data.reference_token);
-      a.target='_blank';
-      var loadImg = new XMLHttpRequest();
-      loadImg.open('GET', data.image.url, true);
-      loadImg.responseType = 'blob';
-      loadImg.onload = function(e) {
-        var img = document.createElement('img');
-        img.style.width = '100%';
-        img.style.height = '175px';
-        img.src = window.URL.createObjectURL(this.response);
-        a.appendChild(img);
-        adverts.appendChild(a);
-      };
-      loadImg.send();
-    };
-    xhr.send();
+    $log.debug('index: loadAdvertisement - Function Called;');
+    var XHR_TIMEOUT = 1500;
+    var INTERVAL_TIMEOUT = 2000;
+    var RETRIES = 5;
+    delete $scope.advertisementLoaded;
+    $scope.advertisementLoaded = $interval(function() {
+      if (document.getElementById('advert-div').innerHTML=='') {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://digibytegaming.com/pages/wallet_ad', true);
+        xhr.responseType = 'json';
+        xhr.timeout = XHR_TIMEOUT;
+        xhr.onload = function(e) {
+          var data = this.response;
+          if (!data) return;
+          var adverts = document.getElementById('advert-div');
+          var params;
+          if (data.target_url && data.target_url.lastIndexOf('/')+1 < data.target_url.length) params = data.target_url.substring(data.target_url.lastIndexOf('/')+1, data.target_url.length);
+          var a = document.createElement('a');
+          a.href= $sce.trustAsResourceUrl('http://digibytegaming.com/ads/redirect?'+ (params ? params + '&' : '') + 'ad_token='+ data.reference_token);
+          a.target='_blank';
+          var loadImg = new XMLHttpRequest();
+          loadImg.open('GET', data.image.url, true);
+          loadImg.responseType = 'blob';
+          loadImg.onload = function(e) {
+            var img = document.createElement('img');
+            img.style.width = '100%';
+            img.style.height = '175px';
+            img.src = window.URL.createObjectURL(this.response);
+            a.appendChild(img);
+            adverts.innerHTML = "";
+            adverts.appendChild(a);
+            $log.debug('index: loadAdvertisement - Advertisement Loaded;');
+          };
+          loadImg.send();
+        };
+        xhr.send();
+      } else {
+        $interval.cancel($scope.advertisementLoaded);
+        $log.debug('index: loadAdvertisement - Advertisement Area Filled;');
+      }
+    }, INTERVAL_TIMEOUT, RETRIES, true);
   }
 
   self.updateTheme = function() {
