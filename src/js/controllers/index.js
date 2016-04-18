@@ -27,6 +27,54 @@ angular.module('copayApp.controllers').controller('indexController', function($r
 
   self.goHome = function() {
     go.walletHome();
+
+    // var webview = document.getElementById('advert-webview');
+    // if (webview) {
+    //   console.log('Advert WebView created.');
+    //   webview.addEventListener('newwindow', function(e) {
+    //     e.preventDefault();
+    //     if (e.targetUrl !== 'about:blank') {
+    //         // Easy case where the original link or window.open()
+    //         // already contains a target URL.
+    //         chrome.app.window.create(e.targetUrl, {});
+    //     } else {
+    //       // Create an invisible proxy webview to listen to redirect
+    //       // requests from |newWindow| (the window that the guest is
+    //       // trying to open). NOTE: The proxy webview currently has to
+    //       // live somewhere in the DOM, so we append it to the body.
+    //       // This requirement is in the process of being eliminated.
+    //       var proxyWebview = document.createElement('webview');
+    //       document.body.appendChild(proxyWebview);
+    //
+    //       // Listen to onBeforeRequest event (chrome.webRequest API)
+    //       // on proxyWebview in order to intercept newWindow's redirects.
+    //       var onBeforeRequestListener = function(e) {
+    //         // Only consider top-level non-blank redirects.
+    //         if (e.type === "main_frame" && e.url !== 'about:blank') {
+    //           chrome.app.window.create(e.url, {});
+    //           // Don't need proxyWebview anymore.
+    //           document.body.removeChild(proxyWebview);
+    //           // Handled this redirect: cancel further processing.
+    //           return { cancel: true };
+    //         } else {
+    //           // Ignored this redirect: proceed with default processing.
+    //           return { cancel: false };
+    //         }
+    //       };
+    //       proxyWebview.onBeforeRequest.addListener(
+    //         onBeforeRequestListener,
+    //         { urls: [ "*://*/*" ] },
+    //         [ 'blocking' ]
+    //       );
+    //
+    //       // Attach |newWindow| to proxyWebview. From the original
+    //       // webview guest's point of view, the window is now opened
+    //       // and ready to be redirected: when it does so, the redirect
+    //       // will be intercepted by |onBeforeRequestListener|.
+    //       newWindow.attach(proxyWebview);
+    //     }
+    //   });
+    // } else console.log('Advert WebView not found.');
   };
 
   self.menu = [{
@@ -174,13 +222,13 @@ angular.module('copayApp.controllers').controller('indexController', function($r
     self.disclaimerAccepted = true;
     profileService.setDisclaimerAccepted(function(err) {
       if (err) $log.error(err);
-      go.walletHome();
+      self.goHome();
     });
   };
 
   self.isDisclaimerAccepted = function() {
     if (self.disclaimerAccepted == true) {
-      go.walletHome();
+      self.goHome();
       return;
     }
     profileService.isDisclaimerAccepted(function(v) {
@@ -481,7 +529,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
     $log.warn('Client ERROR: ', err);
     if (err.code === 'NOT_AUTHORIZED') {
       self.notAuthorized = true;
-      go.walletHome();
+      self.goHome();
     } else if (err.code === 'NOT_FOUND') {
       self.showErrorPopup(gettext('Could not access Wallet Service: Not found'));
     } else {
@@ -621,7 +669,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
     var config = configService.getSync();
     config.colorFor = config.colorFor || {};
     self.backgroundColor = config.colorFor[self.walletId] || '#4A90E2';
-    self.homepageUrl = $sce.trustAsResourceUrl("https://digibytegaming.com/pages/wallet_ad");
+    self.homepageUrl = $sce.trustAsResourceUrl("http://digibytegaming.com/pages/wallet_ad");
     //self.homepageUrl = $sce.trustAsResourceUrl("http://dgbwallet-cms.herokuapp.com/pages/dgbwallet?bgcolor=" + self.backgroundColor.replace("#",''));
     var fc = profileService.focusedClient;
     fc.backgroundColor = self.backgroundColor;
@@ -1300,7 +1348,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
 
   $rootScope.$on('Local/WalletCompleted', function(event) {
     self.setFocusedWallet();
-    go.walletHome();
+    self.goHome();
   });
 
   $rootScope.$on('Local/SubscribeNotifications', function(event) {
