@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('copayApp.controllers').controller('indexController', function($rootScope, $scope, $log, $filter, $timeout, $sce, pushNotificationsService, lodash, go, profileService, configService, isCordova, rateService, storageService, addressService, gettext, gettextCatalog, amMoment, nodeWebkit, addonManager, feeService, isChromeApp, bwsError, txFormatService, uxLanguage, $state, glideraService, isMobile, addressbookService) {
+angular.module('copayApp.controllers').controller('indexController', function($rootScope, $scope, $log, $filter, $timeout, $sce, $sceDelegate, pushNotificationsService, lodash, go, profileService, configService, isCordova, rateService, storageService, addressService, gettext, gettextCatalog, amMoment, nodeWebkit, addonManager, feeService, isChromeApp, bwsError, txFormatService, uxLanguage, $state, glideraService, isMobile, addressbookService) {
   var self = this;
   var SOFT_CONFIRMATION_LIMIT = 12;
   self.isCordova = isCordova;
@@ -187,6 +187,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
       self.txps = [];
       self.copayers = [];
       self.updateColor();
+      self.loadAdvertisement();
       self.updateTheme();
       self.updateAlias();
       self.setAddressbook();
@@ -669,14 +670,39 @@ angular.module('copayApp.controllers').controller('indexController', function($r
     var config = configService.getSync();
     config.colorFor = config.colorFor || {};
     self.backgroundColor = config.colorFor[self.walletId] || '#4A90E2';
-    self.homepageUrl = $sce.trustAsResourceUrl("http://digibytegaming.com/pages/wallet_ad");
-    //self.homepageUrl = $sce.trustAsResourceUrl("http://dgbwallet-cms.herokuapp.com/pages/dgbwallet?bgcolor=" + self.backgroundColor.replace("#",''));
     var fc = profileService.focusedClient;
     fc.backgroundColor = self.backgroundColor;
     if (isCordova && StatusBar.isVisible) {
       StatusBar.backgroundColorByHexString(fc.backgroundColor);
     }
   };
+
+  self.loadAdvertisement = function() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://digibytegaming.com/pages/wallet_ad', true);
+    xhr.responseType = 'application/json';
+    xhr.onload = function(e) {
+      var data = JSON.parse(this.response);
+      console.log(data);
+      var adverts = document.getElementById('advert-div');
+      var a = document.createElement('a');
+      a.href= $sce.trustAsResourceUrl('http://digibytegaming.com/ads/redirect?ad_token='+ data.reference_token);
+      a.target='_blank';
+      var loadImg = new XMLHttpRequest();
+      loadImg.open('GET', data.image.url, true);
+      loadImg.responseType = 'blob';
+      loadImg.onload = function(e) {
+        var img = document.createElement('img');
+        img.style.width = '100%';
+        img.style.height = '175px';
+        img.src = window.URL.createObjectURL(this.response);
+        a.appendChild(img);
+        adverts.appendChild(a);
+      };
+      loadImg.send();
+    };
+    xhr.send();
+  }
 
   self.updateTheme = function() {
     var config = configService.getSync();
