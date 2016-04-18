@@ -1524,7 +1524,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
 
   $rootScope.$on('Local/SetTab', function(event, tab, reset) {
     self.setTab(tab, reset);
-    console.log('SetTab');
+    if (tab=='walletHome') self.loadAdvertisement();
   });
 
   $rootScope.$on('Local/NeedsPassword', function(event, isSetup, cb) {
