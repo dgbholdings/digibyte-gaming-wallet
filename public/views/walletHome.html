@@ -95,7 +95,9 @@
         <!-- Web View Can Be Used in Chrome Canary -->
         <!--<webview ng-src="{{index.homepageUrl}}" id="advert-webview" name="advert-webview" style="width: 100%; height: 175px; backgroundColor: #F6F7F9;"
           autosize="on" minheight="150" maxheight="175"></webview>-->
-        <div id="advert-div" style="padding: 0;" width="385px" height="175px"></div>
+        <div id="advert-div">
+          <a href="{{advertisementUrl}}" target='_blank'><img ng-src="{{advertisementImg}}" style="width:100%; height: 175px;"/></a>
+        </div>
 
         <div class="avatar-name columns line-t line-b">
           <div class="avatar-wallet left"

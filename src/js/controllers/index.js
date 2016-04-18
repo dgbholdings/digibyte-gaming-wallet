@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('copayApp.controllers').controller('indexController', function($rootScope, $scope, $log, $filter, $timeout, $interval, $sce, pushNotificationsService, lodash, go, profileService, configService, isCordova, rateService, storageService, addressService, gettext, gettextCatalog, amMoment, nodeWebkit, addonManager, feeService, isChromeApp, bwsError, txFormatService, uxLanguage, $state, glideraService, isMobile, addressbookService) {
+angular.module('copayApp.controllers').controller('indexController', function($rootScope, $scope, $log, $filter, $timeout, $interval, $sce, pushNotificationsService, lodash, go, profileService, configService, isCordova, rateService, storageService, addressService, gettext, gettextCatalog, amMoment, nodeWebkit, addonManager, feeService, isChromeApp, bwsError, txFormatService, uxLanguage, $state, glideraService, isMobile, addressbookService, addService) {
   var self = this;
   var SOFT_CONFIRMATION_LIMIT = 12;
   self.isCordova = isCordova;
@@ -142,7 +142,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
       self.updateTheme();
       self.updateAlias();
       self.setAddressbook();
-      self.loadAdvertisement();
+      //self.loadAdvertisement();
 
       self.initGlidera();
 
@@ -629,7 +629,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
     }
   };
 
-  self.loadAdvertisement = function() {
+  /*self.loadAdvertisement = function() {
     $log.debug('index: loadAdvertisement - Function Called;');
     var XHR_TIMEOUT = 1500;
     var INTERVAL_TIMEOUT = 2000;
@@ -671,7 +671,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
         $log.debug('index: loadAdvertisement - Advertisement Area Filled;');
       }
     }, INTERVAL_TIMEOUT, RETRIES, true);
-  }
+  }*/
 
   self.updateTheme = function() {
     var config = configService.getSync();
@@ -1524,7 +1524,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
 
   $rootScope.$on('Local/SetTab', function(event, tab, reset) {
     self.setTab(tab, reset);
-    if (tab=='walletHome') self.loadAdvertisement();
+    //if (tab=='walletHome') self.loadAdvertisement();
   });
 
   $rootScope.$on('Local/NeedsPassword', function(event, isSetup, cb) {

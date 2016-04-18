@@ -1226,6 +1226,23 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
     });
   };
 
+  addService.getImgUrl().then(function(data){
+    $scope.advertisementUrl = data.targetLink;
+    var xhr = new XMLHttpRequest();
+      xhr.open('GET', data.imageUrl, true);
+      xhr.responseType = 'blob';
+      xhr.onload = function(e) {
+        var img = document.createElement('img');
+        img.src = window.URL.createObjectURL(this.response);
+        console.log(img.src)
+        $scope.advertisementImg = img.src;
+        setTimeout(function() {$scope.$apply();});
+      };
+      xhr.send();
+  }).catch(function(err){
+    log.warn(err);
+  });
+
   /* Start setup */
 
   this.bindTouchDown();

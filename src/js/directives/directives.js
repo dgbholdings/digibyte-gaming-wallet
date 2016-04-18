@@ -317,4 +317,38 @@ angular.module('copayApp.directives')
       replace: true,
       templateUrl: 'views/includes/available-balance.html'
     }
-  });
+  })
+  .directive('cspSrc', function () {
+    console.log('lol')
+      return {
+          restrict: 'A',
+          replace: false,
+          priority: 99, //after all build-in directive are compiled
+          link: function(scope, element, attrs) {
+              attrs.$observe('ngSrc', function(value) {
+                console.log(value)
+                  if (!value)
+                      return;
+
+                  if(element[0].nodeName.toLowerCase() === 'img' && value.indexOf('blob') != 0){
+                      //if it is img tag then use XHR to load image.
+                      var localSrc = null;
+                      var xhr = new XMLHttpRequest();
+                      xhr.open('GET', value, true);
+                      xhr.responseType = 'blob';
+                      xhr.onload = function (e) {
+                          localSrc = URL.createObjectURL(this.response);
+                      };
+                      xhr.send();
+                      scope.$on("$destroy", function() {
+                          localSrc && URL.revokeObjectURL(localSrc);
+                      });
+                      attrs.$set('src', localSrc);
+
+                  }else{
+                      attrs.$set('src', value);
+                  }
+              });
+          }
+      };
+    });
