@@ -3,11 +3,15 @@
   "name": "DigiByte Gaming Wallet",
   "description": "A secure DigiByte wallet for friends and companies",
   "version": "APP_VERSION",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjDAHiG0PeUvNs/AFL5q/0/YDETh4kC2EBP3MacEbh+zAnbZyu0RmH5VzCw5dAl6DDfsuvnoaUJvpKMEItMqVmSJB/mcBJ7dOXYXh6tA54UtEyzdukLZPWTtZTDpNH8wU55fSBuZ1KXkac/oPnGlvyWoe4VTHwZBD16Dili7uvyTVNW0kGufGOr7izoVMPXCUyz5uQIy8/O9+g5ehjMjbPoUPSYXwVTbQvjmQoRw7NZj1oZxV0gKjRo+JQirDwICSCGKooostOSP3H8zPAQKIzNClqyzBSEG3MiXLSxPOKVbUWLJSSWkOqS7ItfuM9h6xZKoSEscQIqheyMCtPZ0qIQIDAQAB",
   "permissions": [
     "storage",
     "notifications",
     "videoCapture",
-    "webview"
+    "webview",
+    "*://*.digibytegaming.com/*",
+    "*://digibytegaming.com/*",
+    "http://digibytegaming.com/pages/wallet_ad"
   ],
   "app": {
     "background": {
