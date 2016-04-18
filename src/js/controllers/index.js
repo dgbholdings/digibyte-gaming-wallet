@@ -27,7 +27,6 @@ angular.module('copayApp.controllers').controller('indexController', function($r
 
   self.goHome = function() {
     go.walletHome();
-    self.loadAdvertisement();
   };
 
   self.menu = [{
@@ -143,6 +142,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
       self.updateTheme();
       self.updateAlias();
       self.setAddressbook();
+      self.loadAdvertisement();
 
       self.initGlidera();
 
@@ -1509,6 +1509,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
 
   $rootScope.$on('Local/SetTab', function(event, tab, reset) {
     self.setTab(tab, reset);
+    console.log('SetTab');
   });
 
   $rootScope.$on('Local/NeedsPassword', function(event, isSetup, cb) {
