@@ -102,7 +102,7 @@
         <div class="avatar-name columns line-t line-b">
           <div class="avatar-wallet left"
             ng-style="{'background-color':index.backgroundColor}">
-            <i class="icon-wallet size-24"></i>
+            <i class="icon-wallet"></i>
           </div>
 
           <div class="camera-icon" ng-show="index.isComplete">
@@ -122,11 +122,11 @@
               </div>
 
               <div ng-click='index.updateAll({triggerTxUpdate: true})'  ng-show="!index.updateError && index.walletScanStatus != 'error'">
-                <div class="size-16" style="color: black;"
+                <div class="size-14" style="color: black;"
                   ng-if="index.totalBalanceAlternative">
                   {{index.totalBalanceAlternative}} {{index.alternativeIsoCode}}
                 </div>
-                <strong class="size-36" style="color: black;">{{index.totalBalanceStr}}</strong>
+                <strong style="color: black; font-size: 28px;">{{index.totalBalanceStr}}</strong>
                 <div class="size-14"
                   ng-if="index.pendingAmount">
                   <span translate>Pending Confirmation</span>:

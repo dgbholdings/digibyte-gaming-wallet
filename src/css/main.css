@@ -1000,12 +1000,13 @@ a.button.postfix {
 
 .icon-wallet {
   display: block;
-  margin-top: 7px;  
+  margin-top: 7px;
 }
 
-.walletHome .icon-wallet {
+/* Sitt 2016-04-19 Disable Top Margin */
+/*.walletHome .icon-wallet {
   margin-top: 14px;
-}
+}*/
 
 .icon-input {
   font-size: 9px;
