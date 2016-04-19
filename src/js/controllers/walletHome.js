@@ -95,9 +95,11 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
     $rootScope.hideMenuBar = false;
   });
 
-  this.onQrCodeScanned = function(data) {
+  self.onQrCodeScanned = function(data) {
+    $log.debug('walletHome: onQrCodeScanned - Function Call;');
+    $log.debug(data);
     if (data) go.send();
-    $rootScope.$emit('dataScanned', data);
+    $rootScope.$emit('dataScanned', data.replace('digibyte://', '').replace('digibyte:', ''));
   };
 
   rateService.whenAvailable(function() {
