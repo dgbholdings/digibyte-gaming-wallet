@@ -40,7 +40,7 @@
     "url": "https://github.com/bitpay/copay/issues"
   },
   "dependencies": {
-    "bitcore-wallet-client": "git://github.com/digibyte/bitcore-wallet-client.git#f18e4d058698a689943db9cb41f767efbc2c85ed",
+    "bitcore-wallet-client": "git://github.com/digibyte/bitcore-wallet-client.git#32b2f6434d1d4a77d4878d7dee9cf374086c3966",
     "express": "^4.11.2",
     "fs": "0.0.2",
     "grunt": "^0.4.5",
