@@ -962,7 +962,8 @@ angular.module('copayApp.controllers').controller('indexController', function($r
 
           $log.debug('Syncing TXs. Got:' + newTxs.length + ' Skip:' + skip, ' EndingTxid:', endingTxid, ' Continue:', shouldContinue);
 
-          if (!shouldContinue) {
+          // Sitt 2016-04-25 Limit Tx History Cap at 50
+          if (!shouldContinue || newTxs.length >= 50) {
             newTxs = self.processNewTxs(newTxs);
             $log.debug('Finish Sync: New Txs: ' + newTxs.length);
             return i_cb(null, newTxs);
