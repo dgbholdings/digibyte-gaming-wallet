@@ -183,14 +183,22 @@
 
       <!-- Activity -->
 
-      <div
-          class="m20t text-gray size-12 text-center"
-          ng-show="!index.loadingWallet && !index.txHistory[0] && !index.updatingTxHistory[index.walletId] &&
-          !index.txHistoryError && !index.updateError" translate>
-        No transactions yet
+      <h4 class="title m0" translate>Activity</h4>
+      <div class="row" 
+        ng-show="!index.loadingWallet && !index.txHistory[0]">
+        <div class="large-12 columns">
+          <div class="oh text-gray size-12 text-center">
+            <span ng-if="!index.txHistoryError" translate>
+              No transactions yet
+            </span>
+            <span ng-show="index.txHistoryError && !index.notAuthorized" ng-click='index.updateTxHistory()'>
+              <p translate>Could not fetch transaction history</p>
+              <button class="outline round light-gray tiny" translate>Tap to retry</button>
+            </span>
+          </div>
+        </div>
       </div>
-      <div ng-show="index.updatingTxHistory[index.walletId]
-                && ( (index.txProgress > 6 && !index.txHistory[0]) || (index.txProgress > 50 ) )">
+      <div ng-show="index.updatingTxHistory[index.walletId] && index.txProgress > 6">
         <div  class="row p20 text-center">
           <div class="columns large-12 medium-12 small-12 m10b">
             <div class="spinner">
@@ -202,16 +210,12 @@
             </div>
           </div>
           <div class="size-12 text-gray m20t">
-            <div translate>{{index.txProgress}} transactions downloaded</div>
-            <div translate>Updating transaction history. Please stand by.</div>
+            {{index.txProgress}}
+            <span translate>Transactions Downloaded</span> <br>
+            <b translate>Wait some minutes...</b>
           </div>
         </div>
       </div>
-
-      <div ng-show="index.txHistory[0]">
-        <h4 class="title m0">
-          <span translate>Activity</span>
-        </h4>
 
 
         <div ng-if="index.txHistory[0] &&  index.updatingTxHistory[index.walletId] && index.newTx" class="row collapse last-transactions-content animated fadeInDown">
