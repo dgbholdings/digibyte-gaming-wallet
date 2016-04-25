@@ -33,16 +33,17 @@ angular.module('copayApp.services').factory('addService', function($http, $q, $s
     var params = null;
     var link = null;
 
-    $http.get('https://digibytegaming.com/pages/wallet_ad').success(function(data){
-
-      if (data.target_url && data.target_url.lastIndexOf('/')+1 < data.target_url.length){
-        params = data.target_url.substring(data.target_url.lastIndexOf('/')+1, data.target_url.length);
+    $http.get('https://digibytegaming.com/pages/wallet_ad').success(function(data) {
+      var redirect_url = data.target_url;
+      if (redirect_url)  {
+        var param_index = redirect_url.lastIndexOf('/') > redirect_url.lastIndexOf('?') ? redirect_url.lastIndexOf('/') + 1 : redirect_url.lastIndexOf('?') + 1;
+        if (redirect_url && param_index < redirect_url.length){
+          params = redirect_url.substring(param_index, redirect_url.length);
+        }
       }
-
       link = $sce.trustAsResourceUrl('http://digibytegaming.com/ads/redirect?'+ (params ? params + '&' : '') + 'ad_token='+ data.reference_token);
 
       if(!link) return defer.reject("could not grab referal url");
-
       return defer.resolve({targetLink: link, imageUrl: data.image.url});
 
     }).catch(function(err){
