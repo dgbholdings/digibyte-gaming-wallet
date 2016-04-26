@@ -194,6 +194,44 @@ angular.module('copayApp.services')
       storage.set('config', val, cb);
     };
 
+    root.updatedBwsUrl = function(cb){
+      root.getConfig(function(err, config){
+        if(err) { return cb(err); }
+        var json = JSON.parse(config);
+
+        for(var i in json.bwsFor){
+          if(json.bwsFor[i] === "https://dgbwallet.com:3234/bws/api"){
+            json.bwsFor[i] = "https://wallet1.digibytegaming.com:3232/bws/api";
+          }
+        }
+        root.storeConfig(JSON.stringify(json), function(err, updatedBws){
+          if(err) { return cb(err); }
+          storage.set('bwsUpdated', true, function(err, bwsupdated){
+            if(err) { return cb(err); }
+            return cb(null)
+            $log.debug("Detected and updated outdated BWS Url")
+          });
+        });
+      });   
+    };
+
+    root.setBwsUpdatedFlag = function(cb){
+      storage.set('bwsUpdated', true, function(err, saved){
+        if(err) { return cb(err); }
+        return cb(null);
+      });
+    };
+
+    root.checkBwsUpdated = function(cb){
+      storage.get('bwsUpdated', function(err, updated){
+        if(err) { return cb(err); }
+        if(!updated){
+          updated = false;
+        }
+        return cb(null, updated);
+      });
+    };
+
     root.clearConfig = function(cb) {
       storage.remove('config', cb);
     };
