@@ -42,6 +42,7 @@ angular.module('copayApp.controllers').controller('preferencesBwsUrlController',
         bwsFor: {}
       };
       opts.bwsFor[walletId] = this.bwsurl;
+      opts.bwsUpdated = true;
 
       configService.set(opts, function(err) {
         if (err) console.log(err);
