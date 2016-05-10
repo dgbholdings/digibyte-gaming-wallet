@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('copayApp.services').factory('txFormatService', function($http, profileService, rateService, configService, lodash) {
+angular.module('copayApp.services').factory('txFormatService', function($http, profileService, rateService, configService, lodash, $log) {
   var root = {};
 
   var formatAmountStr = function(amount) {
@@ -21,7 +21,7 @@ angular.module('copayApp.services').factory('txFormatService', function($http, p
     return profileService.formatAmount(fee) + ' ' + config.unitName;
   };
 
-  var formatOP_RETURN = function(data){
+  root.formatOP_RETURN = function(data) {
       var hex = data.toString();//force conversion
       var str = '';
       for (var i = 0; i < hex.length; i += 2)
@@ -29,26 +29,10 @@ angular.module('copayApp.services').factory('txFormatService', function($http, p
       return str.substring(2);    
   }
 
-  var getSponsorList = function(message, cb){
-    var logoUrl = null;
-    $http.get('http://www.digiticker.info/sponsers')
-      .success(function(data){
-        for (var i in data.sponsers){
-          if(message.indexOf(data.sponsers[i].name) > -1){
-            message = message.replace(data.sponsers[i].name, data.sponsers[i].url);
-            logoUrl = data.sponsers[i].logo;
-          }
-        }
-        return cb(null, message, logoUrl);
-      })
-      .catch(function(err){
-        return cb(err);
-      })
-  }
-
-
   root.processTx = function(tx) {
-    if (!tx) return; 
+    $log.debug('txFormatService: processTx');
+    $log.debug('Transaction :' + (tx) ? JSON.stringify(tx) : '');
+    if (!tx) return;
 
     var outputs = lodash.isArray(tx.outputs) ? tx.outputs.length : 0;
     if (outputs && tx.action != 'received') {
@@ -70,7 +54,9 @@ angular.module('copayApp.services').factory('txFormatService', function($http, p
     return tx;
   };
 
-  root.checkSponser = function(txid, cb){
+  root.checkSponsor = function(txid, cb){
+    $log.debug('txFormatService: checkSponsor');
+    $log.debug('Transaction ID: ' + txid);
 
     var op_return_message = null;
 

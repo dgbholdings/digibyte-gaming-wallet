@@ -1,7 +1,55 @@
 'use strict';
 
-angular.module('copayApp.services').factory('addService', function($http, $q, $sce) {
+angular.module('copayApp.services').factory('addService', function($http, $q, $sce, $log, txFormatService) {
   var root = {};
+
+  var isNullOrEmpty = function(object) {
+    return (object == null || angular.equals({}, object));
+  }
+
+  var format_op_return = function(op_return) {
+    var content = '';
+    if (op_return) {
+      for (var i = 3; i < op_return.length; i++) {
+        content += op_return[i];
+      }
+    }
+    return content;
+  }
+
+
+  root.getSponsor = function(content, cb) {
+    $log.debug('addService: getSponsor');
+    $log.debug('Message Token: ' + content);
+    var endpoint = "https://digibytegaming.com/sponsors/" + content;
+    $http.get(endpoint).success(function(data) {
+        $log.debug('Data: ' + JSON.stringify(data));
+        if (data.success) {
+          console.log('Sponsor: ' + JSON.stringify(data.sponsor));
+          return cb(!isNullOrEmpty(data.sponsor), data.sponsor);
+        }
+        return cb(false, 'Cannot fetch Sponsor Information');
+      })
+      .catch(function(err) {
+        return cb(false, err);
+      });
+  }
+
+  root.getSponsorMessage = function(content, cb) {
+    $log.debug('addService: getSponsorMessage');
+    $log.debug('Message Token: ' + content);
+    var endpoint = "https://digibytegaming.com/sponsors/msg/" + content;
+    $http.get(endpoint).success(function(data) {
+        $log.debug('Data: ' + JSON.stringify(data));
+        if (data.success==true) {
+          return cb(data.message.content, data.message.image.url);
+        }
+        return cb(null, 'Cannot fetch Sponsor Message');
+      })
+      .catch(function(err) {
+        return cb(err);
+      });
+  }
 
   root.getNews = function(){
     var defer = $q.defer();
@@ -52,7 +100,25 @@ angular.module('copayApp.services').factory('addService', function($http, $q, $s
     });
 
     return defer.promise;
+  };
 
+
+  root.getOpReturn= function(txid, cb) {
+    var op_return_message = null;
+    $log.debug('addService: getOpReturn');
+    $log.debug('Transaction ID: ' + txid);
+    $http.get('http://digiexplorer.info/api/tx/' + txid)
+      .success(function(data) {
+        for(var i in data.vout) {
+          if(data.vout[i].scriptPubKey.asm.indexOf("OP_RETURN") > -1){
+            op_return_message = txFormatService.formatOP_RETURN(data.vout[i].scriptPubKey.asm)
+          }
+        }
+        return cb(format_op_return(op_return_message));
+      })
+      .catch(function(err){
+        return cb(err);
+      });
   };
 
   return root;
