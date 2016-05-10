@@ -1102,6 +1102,7 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
   };
 
   this.openTxModal = function(btx) {
+    $log.debug('walletHome: openTxModal');
     $rootScope.modalOpened = true;
     var self = this;
     var fc = profileService.focusedClient;
@@ -1112,11 +1113,15 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
       $scope.copayerId = fc.credentials.copayerId;
       $scope.isShared = fc.credentials.n > 1;
 
-      addService.getTx(btx.txid).then(function(data){
-        if(data.tx){
-          $scope.sponsorInfo = data.tx.message;
+      addService.getOpReturn(btx.txid, function(data) {
+        $log.debug('addService: getTx');
+        $log.debug('Data: ' + data);
+        addService.getSponsorMessage(data, function(content, imgUrl) {
+          $log.debug('Content: ' + content);
+          $log.debug('Image Url: ' + imgUrl);
+          $scope.sponsorContent = content;
           var xhr = new XMLHttpRequest();
-          xhr.open('GET', data.tx.message.imgurl, true);
+          xhr.open('GET', imgUrl, true);
           xhr.responseType = 'blob';
           xhr.onload = function(e) {
             var img = document.createElement('img');
@@ -1125,8 +1130,8 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
             setTimeout(function() {$scope.$apply();});
           };
           xhr.send();
-        }
-      })
+        });
+      });
 
       $scope.getAlternativeAmount = function() {
         var satToBtc = 1 / 100000000;

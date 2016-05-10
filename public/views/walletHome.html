@@ -231,6 +231,7 @@
               <img src="img/icon-sent-history.svg" alt="sync" width="40" ng-show="btx.action == 'sent'">
               <img src="img/icon-moved.svg" alt="sync" width="40" ng-show="btx.action == 'moved'">
             </div>
+
             <div class="m10t">
               <span ng-show="btx.action == 'received'" translate>Received</span>
               <span ng-show="btx.action == 'sent'">
@@ -244,6 +245,10 @@
               </span>
               <span ng-show="btx.action == 'moved'" translate>Moved</span>
               <span class="label tu warning radius" ng-show="btx.action == 'invalid'" translate>Invalid</span>
+            </div>
+
+            <div class="m10b left">
+              <span class="label tu success radius" ng-show="btx.sponsor" translate><a style="color: #fff" href="{{btx.sponsor.target_url }}" target="_blank">{{ btx.sponsor.name }}</a></span>
             </div>
           </div>
 
@@ -262,8 +267,12 @@
               <time ng-if="btx.time">{{btx.time * 1000 | amTimeAgo}}</time>
               <span translate class="text-warning"
                 ng-show="!btx.time && (!btx.confirmations || btx.confirmations == 0)">
-                Unconfirmed
+                Pending Confirmation...
               </span>
+              <!--<span translate class="text-warning"
+                ng-show="!btx.time && (!btx.confirmations || btx.confirmations == 0)">
+                Unconfirmed
+              </span>-->
             </div>
           </div>
           <div class="large-1 medium-1 small-1 columns text-right m10t">

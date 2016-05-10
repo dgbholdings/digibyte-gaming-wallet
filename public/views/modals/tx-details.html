@@ -29,7 +29,7 @@
         <img src="img/icon-moved.svg" alt="sync" width="50">
         <p class="m0 text-gray size-14" translate>Moved</p>
       </div>
-      
+
       <div class="size-36">
         <span ng-if="btx.action == 'received'">+</span><span ng-if="btx.action == 'sent'">-</span>{{btx.amountStr}}
       </div>
@@ -44,12 +44,12 @@
     </div>
     <div ng-show="btx.action == 'invalid'">
       -
-    </div> 
+    </div>
   </div>
 
   <h4 class="title m0" translate>Details</h4>
 
-  <ul class="no-bullet size-14 m0"> 
+  <ul class="no-bullet size-14 m0">
 
     <li ng-if="!btx.hasMultiplesOutputs && btx.addressTo && btx.addressTo != 'N/A'" class="line-b p10 oh" ng-click="copyAddress(btx.addressTo)">
     <span class="text-gray" translate>To</span>
@@ -63,9 +63,9 @@
         <contact ng-show="!btx.labelTo" class="enable_text_select" address="{{btx.addressTo}}"></contact>
       </span>
     </span>
-    </li> 
+    </li>
 
-    <li ng-show="btx.hasMultiplesOutputs" class="line-b p10 oh" 
+    <li ng-show="btx.hasMultiplesOutputs" class="line-b p10 oh"
       ng-click="showMultiplesOutputs = !showMultiplesOutputs">
       <span class="text-gray" translate>Recipients</span>
       <span class="right">{{btx.recipientCount}}
@@ -83,7 +83,7 @@
       <span class="text-gray" translate>Note</span>
       <span class="right">{{btx.message}}</span>
     </li>
-    
+
     <li ng-if="btx.action == 'invalid'" class="line-b p10 oh">
     <span class="right" translate>
       This transaction has become invalid; possibly due to a double spend attempt.
@@ -113,22 +113,25 @@
     <span class="text-gray" translate>Confirmations</span>
     <span class="right" >
       <span class="text-warning" ng-show="!btx.confirmations || btx.confirmations == 0" translate>
-        Unconfirmed
+        Pending Confirmation...
       </span>
+      <!--<span class="text-warning" ng-show="!btx.confirmations || btx.confirmations == 0" translate>
+        Unconfirmed
+      </span>-->
       <span class="label gray radius" ng-show="btx.confirmations>0 && !btx.safeConfirmed">
         {{btx.confirmations}}
       </span>
       <span class="label gray radius" ng-show="btx.safeConfirmed">
         {{btx.safeConfirmed}}
       </span>
- 
+
     </span>
     </li>
   </ul>
 
-  <div class="text-center" ng-show="sponsorInfo" >
+  <div class="text-center" ng-show="sponsorContent" >
     <div class="center" style="margin-top: 25px; height: 300px;">
-      <strong style="font-size: auto;font-weight: auto;border-bottom: auto; color: auto;padding: auto">{{sponsorInfo.message}}</strong>
+      <strong style="font-size: auto;font-weight: auto;border-bottom: auto; color: auto;padding: auto">{{ sponsorContent }}</strong>
       <div class="image" style="margin-top:10px">
         <img ng-src="{{sponserLogo}}" style="height: 256px;"/>
       </div>

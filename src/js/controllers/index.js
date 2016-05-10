@@ -937,14 +937,32 @@ angular.module('copayApp.controllers').controller('indexController', function($r
       };
 
       getNewTxs([], 0, function(err, txs) {
+        //$log.debug('index: getNewTx');
+        //$log.debug('Transactions: ' + JSON.stringify(txs));
         if (err) return cb(err);
 
         var newHistory = lodash.compact(txs.concat(txsFromLocal));
-        $log.debug('Tx History synced. Total Txs: ' + newHistory.length);
+        //$log.debug('Tx History synced. Total Txs: ' + newHistory.length);
 
         if (walletId == profileService.focusedClient.credentials.walletId) {
           self.completeHistory = newHistory;
           self.txHistory = newHistory.slice(0, self.historyShowLimit);
+
+          angular.forEach(self.txHistory, function(tx, index) {
+            // $log.debug('Transaction: ' + JSON.stringify(tx));
+            addService.getOpReturn(tx.txid, function(data) {
+              self.txHistory[index].opreturn = data;
+              addService.getSponsor(data, function(success, sponsor) {
+                //$log.debug('Sponsor: ' + JSON.stringify(sponsor));
+                if (success) {
+                  self.txHistory[index].sponsor = sponsor;
+                } else {
+                  //$log.debug(JSON.stringify(sponsor));
+                }
+              });
+              //$log.debug('Updated Transaction: ' + JSON.stringify(self.txHistory[index]));
+            });
+          });
           self.historyShowShowAll = newHistory.length >= self.historyShowLimit;
         }
 
@@ -1514,7 +1532,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
   });
 
   storageService.checkBwsUpdated(function(err, isUpdated){
-    if(err) { 
+    if(err) {
       $log.debug("couldn't get storage service");
     } else if(isUpdated != 'true'){
       storageService.updatedBwsUrl(function(err, updatedBws){
