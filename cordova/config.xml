@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.digibytegaming.digibytegaming"
-  version="1.8.3"
+  version="1.8.4"
   android-versionCode="67"
-  ios-CFBundleVersion="1.8.3">
+  ios-CFBundleVersion="1.8.4">
     <name>DigiByte Gaming Wallet</name>
     <description>
       A secure digibyte wallet for friends and companies.
