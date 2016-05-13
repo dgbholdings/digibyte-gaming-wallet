@@ -9,7 +9,7 @@
     <Language code="es" />
     <Language code="ru" />
   </Languages>
-  <App Author="DigiByte Holdings Ltd." BitsPerPixel="32" Description="A multisignature DigiByte Wallet" Genre="apps.normal" ProductID="{5381aa50-9069-11e4-84cc-293caf9cbdc8}" Publisher="DigiByte Gaming Wallet" PublisherID="{31cdd08b-457c-413d-b440-f6665eec847d}" RuntimeType="Silverlight" Title="DigiByte Gaming Wallet" Version="1.8.4.0" xmlns="" NotificationService="MPN">
+  <App Author="DigiByte Holdings Ltd." BitsPerPixel="32" Description="A multisignature DigiByte Wallet" Genre="apps.normal" ProductID="{5381aa50-9069-11e4-84cc-293caf9cbdc8}" Publisher="DigiByte Gaming Wallet" PublisherID="{31cdd08b-457c-413d-b440-f6665eec847d}" RuntimeType="Silverlight" Title="DigiByte Gaming Wallet" Version="1.8.5.0" xmlns="" NotificationService="MPN">
     <IconPath IsRelative="true" IsResource="false">Assets\icon@2.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
