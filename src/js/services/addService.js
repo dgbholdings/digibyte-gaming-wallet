@@ -1,29 +1,52 @@
 'use strict';
 
-angular.module('copayApp.services').factory('addService', function($http, $q, $sce, $log, txFormatService) {
+angular.module('copayApp.services').factory('addService', function($http, $q, $sce) {
   var root = {};
 
   var isNullOrEmpty = function(object) {
     return (object == null || angular.equals({}, object));
-  }
+  };
+
+  var hex_to_ascii = function(hexx) {
+    var hex = hexx.toString();//force conversion
+    var str = '';
+    for (var i = 0; i < hex.length; i += 2)
+        str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+    return str;
+  };
+
+  var ascii_to_hex = function(str) {
+    var arr = [];
+    for (var i = 0, l = str.length; i < l; i ++) {
+      var hex = Number(str.charCodeAt(i)).toString(16);
+      arr.push(hex);
+    }
+    return arr.join('');
+  };
 
   var format_op_return = function(op_return) {
+    //$log.debug('OP_RETURN Unformatted: ' + op_return);
     var content = '';
-    if (op_return) {
-      for (var i = 3; i < op_return.length; i++) {
-        content += op_return[i];
+    if (op_return && op_return.indexOf("OP_RETURN") > -1) {
+      var op_string = new String(op_return);
+      content = op_string.substring(op_string.lastIndexOf("OP_RETURN") + 9, op_string.length).trim();
+    } else if (op_return) {
+      var op_string = hex_to_ascii(op_return);
+      for (var i = 3; i < op_string.length; i++) {
+        content += op_string[i];
       }
     }
+    //$log.debug('OP_RETURN Formatted: ' + content);
     return content;
-  }
+  };
 
 
   root.getSponsor = function(content, cb) {
-    $log.debug('addService: getSponsor');
-    $log.debug('Message Token: ' + content);
+    //$log.debug('addService: getSponsor');
+    //$log.debug('Message Token: ' + content);
     var endpoint = "https://digibytegaming.com/sponsors/" + content;
     $http.get(endpoint).success(function(data) {
-        $log.debug('Data: ' + JSON.stringify(data));
+        //$log.debug('Data: ' + JSON.stringify(data));
         if (data.success) {
           console.log('Sponsor: ' + JSON.stringify(data.sponsor));
           return cb(!isNullOrEmpty(data.sponsor), data.sponsor);
@@ -36,11 +59,11 @@ angular.module('copayApp.services').factory('addService', function($http, $q, $s
   }
 
   root.getSponsorMessage = function(content, cb) {
-    $log.debug('addService: getSponsorMessage');
-    $log.debug('Message Token: ' + content);
+    //$log.debug('addService: getSponsorMessage');
+    //$log.debug('Message Token: ' + content);
     var endpoint = "https://digibytegaming.com/sponsors/msg/" + content;
     $http.get(endpoint).success(function(data) {
-        $log.debug('Data: ' + JSON.stringify(data));
+        //$log.debug('Data: ' + JSON.stringify(data));
         if (data.success==true) {
           return cb(data.message.content, data.message.image.url);
         }
@@ -105,15 +128,18 @@ angular.module('copayApp.services').factory('addService', function($http, $q, $s
 
   root.getOpReturn= function(txid, cb) {
     var op_return_message = null;
-    $log.debug('addService: getOpReturn');
-    $log.debug('Transaction ID: ' + txid);
+    //$log.debug('addService: getOpReturn');
+    //$log.debug('Transaction ID: ' + txid);
     $http.get('http://digiexplorer.info/api/tx/' + txid)
       .success(function(data) {
-        for(var i in data.vout) {
-          if(data.vout[i].scriptPubKey.asm.indexOf("OP_RETURN") > -1){
-            op_return_message = txFormatService.formatOP_RETURN(data.vout[i].scriptPubKey.asm)
+        //$log.debug('Data: ' + JSON.stringify(data));
+        angular.forEach(data.vout, function(output, index) {
+          //$log.debug("Output: " + JSON.stringify(output.scriptPubKey));
+          if(output.scriptPubKey.asm.indexOf("OP_RETURN") > -1) {
+            //$log.debug("OP_RETURN Found: " + output.scriptPubKey.asm);
+            op_return_message = output.scriptPubKey.asm;
           }
-        }
+        })
         return cb(format_op_return(op_return_message));
       })
       .catch(function(err){
