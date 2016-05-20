@@ -1117,14 +1117,15 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
         addService.getSponsorMessage(data, function(content, imgUrl) {
           //$log.debug('Content: ' + content);
           //$log.debug('Image Url: ' + imgUrl);
-          $scope.sponsorContent = content;
+          $scope.messageRedirect = 'https://digibytegaming.com/sponsors/msg/click/' + data;
+          $scope.messageContent = content;
           var xhr = new XMLHttpRequest();
           xhr.open('GET', imgUrl, true);
           xhr.responseType = 'blob';
           xhr.onload = function(e) {
             var img = document.createElement('img');
             img.src = window.URL.createObjectURL(this.response);
-            $scope.sponserLogo = img.src;
+            $scope.messageImg = img.src;
             setTimeout(function() {$scope.$apply();});
           };
           xhr.send();

@@ -955,6 +955,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
               addService.getSponsor(data, function(success, sponsor) {
                 //$log.debug('Sponsor: ' + JSON.stringify(sponsor));
                 if (success) {
+                  sponsor['redirect'] = 'https://digibytegaming.com/sponsors/click/' + data; 
                   self.txHistory[index].sponsor = sponsor;
                 } else {
                   //$log.debug(JSON.stringify(sponsor));

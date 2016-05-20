@@ -129,11 +129,13 @@
     </li>
   </ul>
 
-  <div class="text-center" ng-show="sponsorContent" >
+  <div class="text-center" ng-show="messageContent" >
     <div class="center" style="margin-top: 25px; height: 300px;">
-      <strong style="font-size: auto;font-weight: auto;border-bottom: auto; color: auto;padding: auto">{{ sponsorContent }}</strong>
+      <strong style="font-size: auto;font-weight: auto;border-bottom: auto; color: auto;padding: auto">{{ messageContent }}</strong>
       <div class="image" style="margin-top:10px">
-        <img ng-src="{{sponserLogo}}" style="height: 256px;"/>
+        <a href="{{ messageRedirect }}" target="_blank">
+          <img ng-src="{{ messageImg }}" style="height: 256px;"/>
+        </d>
       </div>
     </div>
   </div>
