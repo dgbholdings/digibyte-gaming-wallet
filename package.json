@@ -1,8 +1,8 @@
 {
   "name": "DigiByte-Gaming",
   "description": "A multisignature wallet",
-  "author": "BitPay",
-  "version": "1.8.7",
+  "author": "DigiByte Holdings Ltd",
+  "version": "1.8.8",
   "keywords": [
     "wallet",
     "digibyte",

@@ -3,11 +3,11 @@
 angular.module('copayApp.services')
   .factory('localStorageService', function(isChromeApp, nodeWebkit, $timeout) {
     var root = {};
-    var ls = ((typeof window.localStorage !== "undefined") ? window.localStorage : null);
+    var ls = ((typeof chrome.storage.local !== "undefined") ? chrome.storage.local : null);
 
     if (isChromeApp && !nodeWebkit.isDefined() && !ls) {
       ls = localStorage = chrome.storage.local;
-      window.localStorage = chrome.storage.local;
+      chrome.storage.local = chrome.storage.local;
     }
 
     if (!ls)
