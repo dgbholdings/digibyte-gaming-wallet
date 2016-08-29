@@ -17,7 +17,8 @@ angular.module('copayApp.services')
       if (config.unitCode == 'sat') return amount;
 
       //TODO : now only works for english, specify opts to change thousand separator and decimal separator
-      return this.Utils.formatAmount(amount, config.unitCode);
+
+        return  parseFloat(this.Utils.formatAmount(amount, config.unitCode)).toFixed(2);
     };
 
     root._setFocus = function(walletId, cb) {
@@ -636,7 +637,7 @@ angular.module('copayApp.services')
     root.unlockFC = function(cb) {
       var fc = root.focusedClient;
 
-      if (!fc.isPrivKeyEncrypted()) 
+      if (!fc.isPrivKeyEncrypted())
         return cb();
 
       $log.debug('Wallet is encrypted');
