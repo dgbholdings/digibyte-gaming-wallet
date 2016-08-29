@@ -98,6 +98,7 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
   self.onQrCodeScanned = function(data) {
     $log.debug('walletHome: onQrCodeScanned - Function Call;');
     $log.debug(data);
+
     if (data) go.send();
     $rootScope.$emit('dataScanned', data.replace('digibyte://', '').replace('digibyte:', ''));
   };
@@ -455,7 +456,6 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
         }, 100);
       }
     });
-
   };
 
   this.setAddress = function(forceNew) {
@@ -894,8 +894,6 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
       form.comment.$render();
     }
   };
-
-
 
   this.resetForm = function() {
     this.resetError();

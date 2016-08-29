@@ -955,7 +955,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
               addService.getSponsor(data, function(success, sponsor) {
                 //$log.debug('Sponsor: ' + JSON.stringify(sponsor));
                 if (success) {
-                  sponsor['redirect'] = 'https://digibytegaming.com/sponsors/click/' + data; 
+                  sponsor['redirect'] = 'https://digibytegaming.com/sponsors/click/' + data;
                   self.txHistory[index].sponsor = sponsor;
                 } else {
                   //$log.debug(JSON.stringify(sponsor));
@@ -1532,20 +1532,4 @@ angular.module('copayApp.controllers').controller('indexController', function($r
     });
   });
 
-  storageService.checkBwsUpdated(function(err, isUpdated){
-    if(err) {
-      $log.debug("couldn't get storage service");
-    } else if(isUpdated != 'true'){
-      storageService.updatedBwsUrl(function(err, updatedBws){
-        if(err) { $log.debug("couldn't set new BWS Url"); }
-
-        storageService.setBwsUpdatedFlag(function(err, updated){
-          if(err) { $log.debug("Couldn't saved updated BWS Url"); };
-          $log.debug("Bws url updated");
-        });
-      });
-    } else {
-      $log.debug("Bws url is up to date");
-    }
-  });
 });
