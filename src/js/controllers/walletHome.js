@@ -559,7 +559,7 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
 
       $scope.submitForm = function(form) {
         var satToBtc = 1 / 100000000;
-        var amount = form.amount.$modelValue;
+        var amount = form.amount.$modelValue.toFixed(2);
         var amountSat = parseInt((amount * $scope.unitToSatoshi).toFixed(0));
         $timeout(function() {
           $scope.customizedAmountUnit = amount + ' ' + $scope.unitName;
