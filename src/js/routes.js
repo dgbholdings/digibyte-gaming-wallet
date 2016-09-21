@@ -397,6 +397,16 @@ angular
           },
         }
       })
+      .state('signMessage', {
+        url: '/signmessage',
+        walletShouldBeComplete: true,
+        needProfile: true,
+        views: {
+          'main': {
+            templateUrl: 'views/signMessage.html'
+          },
+        }
+      })
       .state('about', {
         url: '/about',
         templateUrl: 'views/preferencesAbout.html',
