@@ -86,7 +86,7 @@ if [ ! -d $PROJECT ]; then
 
   if [ $CURRENT_OS != "WP8" ]
   then
-    cordova plugin add https://github.com/tjwoon/csZBar.git
+    cordova plugin add https://github.com/tjwoon/csZBar.git#9a365ce13cfaa9d61a81c29449afa8ea7bd6e7d5
     checkOK
   else
     echo "${OpenColor}${Green}* Using plugin phonegap-plugin-barcodescanner for Windows Phone 8  ${CloseColor}"
@@ -124,7 +124,7 @@ if [ ! -d $PROJECT ]; then
   cordova plugin add https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git && cordova prepare
   checkOK
 
-  cordova plugin add hu.dpal.phonegap.plugins.spinnerdialog
+  cordova plugin add cordova-plugin-spinner-dialog
   checkOK
 
   cordova plugin add cordova-plugin-dialogs
@@ -136,7 +136,7 @@ if [ ! -d $PROJECT ]; then
   cordova plugin add cordova-plugin-console
   checkOK
 
-  cordova plugin add hu.dpal.phonegap.plugins.uniquedeviceid
+  cordova plugin add cordova-plugin-uniquedeviceid
   checkOK
 
   cordova plugin add cordova-plugin-file@3.0.0

@@ -1,0 +1,13 @@
+
+<div ng-if="type == 'broadcasted'" class="popup-txsent text-center">
+  <i class="small-centered columns fi-check m30tp" ng-style="{'color':color, 'border-color':color}"></i>
+  <div ng-show="tx.amountStr" class="m20t size-36 text-white">
+    {{tx.amountStr}}
+  </div>
+  <div class="size-16 text-gray">
+    <span translate>Sent</span>
+  </div>
+  <div class="text-center m20t">
+    <a class="button outline round light-gray tiny small-4" ng-click="cancel()">OKAY</a>
+  </div>
+</div>

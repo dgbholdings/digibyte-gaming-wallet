@@ -1,0 +1,57 @@
+<div 
+  class="topbar-container" 
+  ng-include="'views/includes/topbar.html'"
+  ng-init="titleSection='Sign Message'; goBackToState = 'preferences'">
+</div>
+
+
+
+<div class="content preferences ng-scope" ng-controller="signMessageController as signMessage" ng-init="signMessage.init()">
+
+  <form class="columns ng-pristine ng-valid" ng-submit="signMessage.sign()" style="top:45px">
+
+    <div ng-hide="create.hideWalletName">
+      <label><span translate>Message to Sign</span>
+        <div class="input">
+          <input type="text" placeholder="Message to Sign" class="ng-pristine ng-untouched ng-valid" name="message" ng-model="message" ng-required="true">
+        </div>
+      </label>
+    </div>
+
+    <div ng-show="addrs">
+      <label><span translate>Address to Sign with</span>
+        <select class="m10t" ng-model="signAddress" ng-options="signAddress as signAddress.address for signAddress in addrs">
+        </select>
+      </label>
+    </div>
+
+    <input type="submit" class="button expand black round" value="Submit" ng-style="{'background-color':index.backgroundColor}" style="background-color: rgb(74, 144, 226);">
+  </form>
+
+  <div class="columns ng-pristine ng-valid" style="top:45px; padding:0px">
+
+    <ul class="no-bullet size-14 m0" ng-show="signature">
+
+      <li class="line-b p10 oh">
+      <span class="text-gray" translate>Address</span>
+      <span class="right">
+        <span>
+          <span class="enable_text_select">{{signAddress.address}}</span>
+        </span>
+      </span>
+      </li>
+
+      <li class="line-b p10 oh">
+      <span class="text-gray" translate>Signature</span>
+      <span class="right">
+        <span>
+          <span class="enable_text_select">{{signature}}</span>
+        </span>
+      </span>
+      </li>
+
+    </ul>
+  </div>
+
+</div>
+<div class="extra-margin-bottom"></div>
