@@ -1,7 +1,7 @@
 <div 
   class="topbar-container" 
   ng-include="'views/includes/topbar.html'"
-  ng-init="titleSection='Sign Message'; goBackToState = 'preferences'">
+  ng-init="titleSection='My Digi-ID'; closeToHome = true; noColor = true">
 </div>
 
 
@@ -11,7 +11,7 @@
   <form class="columns ng-pristine ng-valid" ng-submit="signMessage.sign()" style="top:45px">
 
     <div ng-hide="create.hideWalletName">
-      <label><span translate>Message to Sign</span>
+      <label><span translate>Digipass URI</span>
         <div class="input">
           <input type="text" placeholder="Message to Sign" class="ng-pristine ng-untouched ng-valid" name="message" ng-model="message" ng-required="true">
         </div>

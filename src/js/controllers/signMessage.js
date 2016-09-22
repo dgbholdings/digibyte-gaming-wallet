@@ -6,8 +6,6 @@ angular.module('copayApp.controllers').controller('signMessageController',
     var fc = profileService.focusedClient;
     var c = fc.credentials;
 
-    console.log(c)
-
     this.init = function() {
       var basePath = c.getBaseAddressDerivationPath();
 
@@ -41,10 +39,6 @@ angular.module('copayApp.controllers').controller('signMessageController',
     this.sign = function(){
       $scope.signature = profileService.Utils.signDigibyteMessage($scope.message, $scope.signAddress.path.slice(4), c.xPrivKey);
     };
-
-    this.onQrCodeScanned = function(data){
-      $scope.signature = profileService.Utils.signDigibyteMessage(data, $scope.signAddress.path.slice(4), c.xPrivKey);
-    }
 
 
   });
