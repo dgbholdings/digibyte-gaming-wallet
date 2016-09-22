@@ -1,14 +1,36 @@
 'use strict';
 
 angular.module('copayApp.controllers').controller('signMessageController',
-  function($scope, $timeout, profileService) {
+  function($scope, $timeout, profileService, storageService) {
     var base = 'xpub';
     var fc = profileService.focusedClient;
     var c = fc.credentials;
 
     this.init = function() {
-      var basePath = c.getBaseAddressDerivationPath();
+      var self = this;
 
+      $scope.loading = true;
+
+      storageService.getDigiID(function(err, digiID){
+        if(err) return;
+
+        if(!digiID || digiID === 'null'){
+          return self.getMainAddresses(function(err, addressArray){
+            if(err) return;
+
+            $scope.addrs = addressArray;
+            $scope.signAddress = addressArray[0];
+            $scope.loading = false;
+          });
+        }
+
+        $scope.digiID = JSON.parse(digiID);
+        $scope.loading = false;
+
+      });
+    };
+
+    this.getMainAddresses = function(cb){
       $scope.addrs = null;
 
       fc.getMainAddresses({
@@ -18,26 +40,59 @@ angular.module('copayApp.controllers').controller('signMessageController',
           $log.warn(err);
           return;
         };
-        var last10 = [],
+        var addresses = [],
           i = 0,
           e = addrs.pop();
-        while (i++ < 30 && e) {
+        while (i++ < 20 && e) {
           e.path = base + e.path.substring(1);
-          last10.push(e);
+          addresses.push(e);
           e = addrs.pop();
         }
-        $scope.addrs = last10;
-        $scope.signAddress = $scope.addrs[0];
-        var test = profileService.Utils.signDigibyteMessage('bitid://digusign.com/auth/bitid/callback?x=da579bdad95e7a56', $scope.signAddress.path.slice(4));
-        $timeout(function() {
-          $scope.$apply();
-        });
+        return cb(null, addresses);
 
       });
     };
 
+    this.setDigiIDAddress = function(addr){
+
+      $scope.digiID = { 
+        address: addr.address, 
+        path: addr.path.slice(4)
+      };
+
+      storageService.setDigiID(JSON.stringify($scope.digiID), function(err){
+        if(err){
+          $log.debug(err);
+        }
+
+        return;
+      });
+    };
+
+    this.setNewDigiID = function(){
+      var self = this;
+
+      $scope.digiID = null;
+      $scope.signature = null;
+      $scope.loading = true;
+
+      storageService.setDigiID($scope.digiID, function(err){
+        if(err){
+          $log.debug(err);
+        }
+
+        self.getMainAddresses(function(err, addressArray){
+          if(err) return;
+
+          $scope.addrs = addressArray;
+          $scope.signAddress = addressArray[0];
+          $scope.loading = false;
+        });
+      });
+    }
+
     this.sign = function(){
-      $scope.signature = profileService.Utils.signDigibyteMessage($scope.message, $scope.signAddress.path.slice(4), c.xPrivKey);
+      $scope.signature = profileService.Utils.signDigibyteMessage($scope.message, $scope.digiID.path, c.xPrivKey);
     };
 
 

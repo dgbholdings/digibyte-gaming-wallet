@@ -8,20 +8,31 @@
 
 <div class="content preferences ng-scope" ng-controller="signMessageController as signMessage" ng-init="signMessage.init()">
 
-  <form class="columns ng-pristine ng-valid" ng-submit="signMessage.sign()" style="top:45px">
+  <form class="columns ng-pristine ng-valid" ng-submit="signMessage.setDigiIDAddress(signAddress)" style="top:45px" ng-show="!digiID">
+
+    <div class="loading" ng-show="loading" style="margin-bottom:15px">
+      <span> Please wait...</span>
+    </div>
+
+    <div ng-show="addrs">
+      <label><span translate>Address to use for Digi-ID</span>
+        <select class="m10t" ng-model="signAddress" ng-options="signAddress as signAddress.address for signAddress in addrs">
+        </select>
+      </label>
+    </div>
+
+    <input ng-show="addrs" type="submit" class="button expand black round" value="Set as My Digi-ID" ng-style="{'background-color':index.backgroundColor}" style="background-color: rgb(74, 144, 226);">
+
+  </form>
+
+  <form class="columns ng-pristine ng-valid" ng-submit="signMessage.sign()" style="top:45px" ng-show="digiID">
 
     <div ng-hide="create.hideWalletName">
+      <a class="right size-12" ng-click="signMessage.setNewDigiID()" translate=""><span class="ng-scope">Set New Digi-ID Address</span></a>
       <label><span translate>Digipass URI</span>
         <div class="input">
           <input type="text" placeholder="Message to Sign" class="ng-pristine ng-untouched ng-valid" name="message" ng-model="message" ng-required="true">
         </div>
-      </label>
-    </div>
-
-    <div ng-show="addrs">
-      <label><span translate>Address to Sign with</span>
-        <select class="m10t" ng-model="signAddress" ng-options="signAddress as signAddress.address for signAddress in addrs">
-        </select>
       </label>
     </div>
 
@@ -36,7 +47,7 @@
       <span class="text-gray" translate>Address</span>
       <span class="right">
         <span>
-          <span class="enable_text_select">{{signAddress.address}}</span>
+          <span class="enable_text_select">{{digiID.address}}</span>
         </span>
       </span>
       </li>

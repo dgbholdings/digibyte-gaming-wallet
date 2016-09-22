@@ -142,6 +142,19 @@ angular.module('copayApp.services')
       storage.set('focusedWalletId', id || '', cb);
     };
 
+    root.getDigiID = function(cb){
+      storage.get('digiID', function(err, str){
+        if (err || !str)
+          return cb(err);
+
+        return cb(err, str);        
+      });
+    };
+
+    root.setDigiID = function(addr, cb){
+      storage.set('digiID', addr, cb);
+    };
+
     root.getFocusedWalletId = function(cb) {
       storage.get('focusedWalletId', cb);
     };
