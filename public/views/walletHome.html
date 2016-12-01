@@ -126,7 +126,7 @@
                   ng-if="index.totalBalanceAlternative">
                   {{index.totalBalanceAlternative}} {{index.alternativeIsoCode}}
                 </div>
-                <strong style="color: black; font-size: 28px;">{{index.totalBalanceStr}}</strong>
+                <strong style="color: black; font-size: 28px;">{{index.totalBalance | number:2 }} DGB</strong>
                 <div class="size-14"
                   ng-if="index.pendingAmount">
                   <span translate>Pending Confirmation</span>:

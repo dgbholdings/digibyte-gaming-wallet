@@ -666,6 +666,7 @@ angular.module('copayApp.controllers').controller('indexController', function($r
     self.unitToSatoshi = config.unitToSatoshi;
     self.satToUnit = 1 / self.unitToSatoshi;
     self.unitName = config.unitName;
+    self.totalBalance = profileService.formatAmount(self.totalBalanceSat);
 
     //STR
     self.totalBalanceStr = profileService.formatAmount(self.totalBalanceSat) + ' ' + self.unitName;
