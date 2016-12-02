@@ -18,7 +18,7 @@ angular.module('copayApp.services')
 
       //TODO : now only works for english, specify opts to change thousand separator and decimal separator
 
-        return this.Utils.formatAmount(amount, config.unitCode);
+      return this.Utils.formatAmount(amount, config.unitCode);
     };
 
     root._setFocus = function(walletId, cb) {

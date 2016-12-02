@@ -27,6 +27,7 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
   this.showScanner = false;
   this.addr = {};
   this.lockedCurrentFeePerKb = null;
+  this.sendAmount = null;
 
   $scope.getNews = function(){
     addService.getNews().then(function(news){
@@ -559,7 +560,7 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
 
       $scope.submitForm = function(form) {
         var satToBtc = 1 / 100000000;
-        var amount = form.amount.$modelValue;
+        var amount = form.amount.$modelValue.toFixed(8);
         var amountSat = parseInt((amount * $scope.unitToSatoshi).toFixed(0));
         $timeout(function() {
           $scope.customizedAmountUnit = amount + ' ' + $scope.unitName;
@@ -776,7 +777,7 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
     };
   };
 
-  this.submitForm = function() {
+  this.submitForm = function(form) {
     var fc = profileService.focusedClient;
     var unitToSat = this.unitToSatoshi;
     var currentSpendUnconfirmed = configWallet.spendUnconfirmed;
@@ -790,7 +791,8 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
     }
 
     var form = $scope.sendForm;
-    if (form.$invalid) {
+    console.log(document.getElementById('amount').value);
+    if (form.$invalid && !form.amount.$invalid) {
       this.error = gettext('Unable to send transaction proposal');
       return;
     }
@@ -817,7 +819,7 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
       var address, amount;
 
       address = form.address.$modelValue;
-      amount = parseInt((form.amount.$modelValue * unitToSat).toFixed(0));
+      amount = parseInt((self.sendAmount * unitToSat).toFixed(0));
 
       txSignService.prepare(function(err) {
         if (err) {

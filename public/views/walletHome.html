@@ -126,7 +126,7 @@
                   ng-if="index.totalBalanceAlternative">
                   {{index.totalBalanceAlternative}} {{index.alternativeIsoCode}}
                 </div>
-                <strong style="color: black; font-size: 28px;">{{ index.totalBalance }}</strong>
+                <strong style="color: black; font-size: 28px;">{{ index.totalBalanceStr }}</strong>
                 <div class="size-14"
                   ng-if="index.pendingAmount">
                   <span translate>Pending Confirmation</span>:
@@ -414,7 +414,7 @@
       </div>
       <div class="row m20t">
         <div class="large-12 large-centered columns">
-          <form name="sendForm" ng-submit="home.submitForm()" ng-disabled="home.blockUx || home.onGoingProcess" novalidate>
+          <form name="sendForm" ng-submit="home.submitForm(sendForm)" ng-disabled="home.blockUx || home.onGoingProcess" novalidate>
 
             <div ng-hide="home._paypro || home.hideAddress">
               <div class="row collapse">
@@ -461,12 +461,12 @@
 
             <div class="row" ng-init="home.hideAlternative()" ng-hide="home.hideAmount">
               <div class="large-12 medium-12 columns">
-                <div class="right" ng-hide="sendForm.amount.$pristine && !sendForm.amount.$modelValue ">
-                  <span class="has-error right size-12" ng-if="sendForm.amount.$invalid">
+                <div class="right" ng-hide="sendForm.amount.$pristine && !home.sendAmount ">
+                  <span class="has-error right size-12" ng-if="!home.sendAmount">
                     <i class="icon-close-circle size-14"></i>
                     <span clas="vm" translate>Not valid</span>
                   </span>
-                  <small class="text-primary right" ng-if="!sendForm.amount.$invalid && !sendForm.alternative.$invalid">
+                  <small class="text-primary right" ng-if="!home.sendAmount && !sendForm.alternative.$invalid">
                     <i class="icon-checkmark-circle size-14"></i>
                   </small>
                 </div>
@@ -475,7 +475,7 @@
                     <span translate>Amount</span>
                   </label>
                   <div class="input">
-                    <input type="number" id="amount" ng-disabled="home.blockUx || home.lockAmount" name="amount" ng-attr-placeholder="{{'Amount in'|translate}} {{home.unitName}}" ng-minlength="0.00000001" ng-maxlength="10000000000" ng-model="_amount" valid-amount required autocomplete="off" ng-focus="home.formFocus('amount')" ng-blur="home.formFocus(false)">
+                    <input type="number" id="amount" ng-disabled="home.blockUx || home.lockAmount" name="amount" ng-attr-placeholder="{{'Amount in'|translate}} {{home.unitName}}" ng-minlength="0.00000001" ng-maxlength="10000000000" ng-model="_amount" ng-change="home.sendAmount = _amount"valid-amount required autocomplete="off" ng-focus="home.formFocus('amount')" ng-blur="home.formFocus(false)">
                     <input type="number" id="alternative"  name="alternative"  ng-model="_alternative" style="display:none">
                     <a class="postfix button" ng-style="{'background-color':index.backgroundColor}" ng-click="home.showAlternative()">{{home.unitName}}</a>
                   </div>
