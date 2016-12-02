@@ -666,7 +666,15 @@ angular.module('copayApp.controllers').controller('indexController', function($r
     self.unitToSatoshi = config.unitToSatoshi;
     self.satToUnit = 1 / self.unitToSatoshi;
     self.unitName = config.unitName;
-    self.totalBalance = profileService.formatAmount(self.totalBalanceSat);
+
+    // balance
+    if(profileService.formatAmount(self.totalBalanceSat) > 1000000){
+      self.totalBalance = profileService.formatAmount(self.totalBalanceSat).toString(2) + ' DGB';
+    } else if(profileService.formatAmount(self.totalBalanceSat) > 10000){
+      self.totalBalance = profileService.formatAmount(self.totalBalanceSat).toString(4) + ' DGB';
+    } else {
+      self.totalBalance = profileService.formatAmount(self.totalBalanceSat).toString(8) + ' DGB';
+    }
 
     //STR
     self.totalBalanceStr = profileService.formatAmount(self.totalBalanceSat) + ' ' + self.unitName;
