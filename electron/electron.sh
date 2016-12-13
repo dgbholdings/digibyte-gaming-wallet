@@ -1,3 +1,4 @@
+cd electron
 rm -rf public
 rm -rf build
 cp -R ../public .
