@@ -10,6 +10,10 @@ src/js/version.js
 cordova/project/*
 cordova/*.keystore
 
+# electron
+electron/build
+electron/public
+
 # node-webkit
 cache
 webkitbuilds/*

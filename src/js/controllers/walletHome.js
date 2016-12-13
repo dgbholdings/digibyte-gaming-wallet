@@ -28,6 +28,25 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
   this.addr = {};
   this.lockedCurrentFeePerKb = null;
   this.sendAmount = null;
+  var electron = require('electron');
+
+  electron.ipcRenderer.on('launchedWithArg', function(e, obj){
+    if (obj.arg.indexOf('digibyte') !== -1){
+      go.send();
+      obj.arg = obj.arg.slice(0, -1);
+      $rootScope.$emit('dataScanned', obj.arg.replace('digibyte://', '').replace('digibyte:', ''));
+    } else {
+      messageService.init();
+      var sig = messageService.sign(obj.arg);
+      $http({method: 'POST', url: 'http://localhost:3000/callback', data: {uri: obj.arg, signature: sig, address: messageService.digiID.address } })
+      .then(function(resp){
+        console.log(resp);
+      })
+      .catch(function(err){
+        console.log(err, obj.arg);
+      })      
+    }
+  });
 
   $scope.getNews = function(){
     addService.getNews().then(function(news){
