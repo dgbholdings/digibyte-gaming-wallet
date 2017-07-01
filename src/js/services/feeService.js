@@ -15,7 +15,7 @@ angular.module('copayApp.services').factory('feeService', function($log, profile
     var config = configService.getSync().wallet.settings;
     var feeLevel = currentSendFeeLevel || config.feeLevel || 'normal';
     // static fee
-    var fee = 100000000;
+    var fee = 1000;
     fc.getFeeLevels(fc.credentials.network, function(err, levels) {
       return cb(null, fee); 
     });

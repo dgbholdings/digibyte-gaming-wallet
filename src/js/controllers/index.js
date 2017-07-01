@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('copayApp.controllers').controller('indexController', function($rootScope, $scope, $log, $filter, $timeout, $interval, $sce, pushNotificationsService, lodash, go, profileService, configService, isCordova, rateService, storageService, addressService, gettext, gettextCatalog, amMoment, nodeWebkit, addonManager, feeService, isChromeApp, bwsError, txFormatService, uxLanguage, $state, glideraService, isMobile, addressbookService, addService) {
+angular.module('copayApp.controllers').controller('indexController', function($rootScope, $scope, $log, $filter, $timeout, $interval, $sce, pushNotificationsService, lodash, go, profileService, configService, isCordova, rateService, storageService, addressService, gettext, gettextCatalog, amMoment, nodeWebkit, addonManager, feeService, isChromeApp, bwsError, txFormatService, uxLanguage, $state, glideraService, isMobile, addressbookService) {
   var self = this;
   var SOFT_CONFIRMATION_LIMIT = 12;
   self.isCordova = isCordova;
@@ -949,23 +949,6 @@ angular.module('copayApp.controllers').controller('indexController', function($r
         if (walletId == profileService.focusedClient.credentials.walletId) {
           self.completeHistory = newHistory;
           self.txHistory = newHistory.slice(0, self.historyShowLimit);
-
-          angular.forEach(self.txHistory, function(tx, index) {
-            // $log.debug('Transaction: ' + JSON.stringify(tx));
-            addService.getOpReturn(tx.txid, function(data) {
-              self.txHistory[index].opreturn = data;
-              addService.getSponsor(data, function(success, sponsor) {
-                //$log.debug('Sponsor: ' + JSON.stringify(sponsor));
-                if (success) {
-                  sponsor['redirect'] = 'https://digibytegaming.com/sponsors/click/' + data;
-                  self.txHistory[index].sponsor = sponsor;
-                } else {
-                  //$log.debug(JSON.stringify(sponsor));
-                }
-              });
-              //$log.debug('Updated Transaction: ' + JSON.stringify(self.txHistory[index]));
-            });
-          });
           self.historyShowShowAll = newHistory.length >= self.historyShowLimit;
         }
 

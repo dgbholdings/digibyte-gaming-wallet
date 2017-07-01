@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('copayApp.controllers').controller('walletHomeController', function($scope, $rootScope, $timeout, $filter, $modal, $log, notification, txStatus, isCordova, isMobile, profileService, lodash, configService, rateService, storageService, bitcore, isChromeApp, gettext, gettextCatalog, nodeWebkit, addressService, ledger, bwsError, confirmDialog, txFormatService, animationService, addressbookService, go, feeService, txSignService, addService) {
+angular.module('copayApp.controllers').controller('walletHomeController', function($scope, $rootScope, $timeout, $filter, $modal, $log, notification, txStatus, isCordova, isMobile, profileService, lodash, configService, rateService, storageService, bitcore, isChromeApp, gettext, gettextCatalog, nodeWebkit, addressService, ledger, bwsError, confirmDialog, txFormatService, animationService, addressbookService, go, feeService, txSignService) {
 
   var self = this;
   window.ignoreMobilePause = false;
@@ -28,14 +28,6 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
   this.addr = {};
   this.lockedCurrentFeePerKb = null;
   this.sendAmount = null;
-
-  $scope.getNews = function(){
-    addService.getNews().then(function(news){
-      $scope.news = news;
-    }).catch(function(err){
-      console.log(err);
-    });
-  }
 
   var disableScannerListener = $rootScope.$on('dataScanned', function(event, data) {
     self.setForm(data);
@@ -1113,25 +1105,6 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
       $scope.copayerId = fc.credentials.copayerId;
       $scope.isShared = fc.credentials.n > 1;
 
-      addService.getOpReturn(btx.txid, function(data) {
-        addService.getSponsorMessage(data, function(content, imgUrl) {
-          //$log.debug('Content: ' + content);
-          //$log.debug('Image Url: ' + imgUrl);
-          $scope.messageRedirect = 'https://digibytegaming.com/sponsors/msg/click/' + data;
-          $scope.messageContent = content;
-          var xhr = new XMLHttpRequest();
-          xhr.open('GET', imgUrl, true);
-          xhr.responseType = 'blob';
-          xhr.onload = function(e) {
-            var img = document.createElement('img');
-            img.src = window.URL.createObjectURL(this.response);
-            $scope.messageImg = img.src;
-            setTimeout(function() {$scope.$apply();});
-          };
-          xhr.send();
-        });
-      });
-
       $scope.getAlternativeAmount = function() {
         var satToBtc = 1 / 100000000;
         fc.getFiatRate({
@@ -1231,23 +1204,6 @@ angular.module('copayApp.controllers').controller('walletHomeController', functi
       });
     });
   };
-
-  addService.getImgUrl().then(function(data){
-    $scope.advertisementUrl = data.targetLink;
-    var xhr = new XMLHttpRequest();
-      xhr.open('GET', data.imageUrl, true);
-      xhr.responseType = 'blob';
-      xhr.onload = function(e) {
-        var img = document.createElement('img');
-        img.src = window.URL.createObjectURL(this.response);
-        console.log(img.src)
-        $scope.advertisementImg = img.src;
-        setTimeout(function() {$scope.$apply();});
-      };
-      xhr.send();
-  }).catch(function(err){
-    log.warn(err);
-  });
 
   /* Start setup */
 
