@@ -100,7 +100,7 @@ angular.module('copayApp.directives')
             }
 
             if (typeof vNum == "number" && vNum > 0) {
-              var decimals = Number(0);
+              var decimals = Number(8);
               var sep_index = ('' + value).indexOf('.');
               var str_value = ('' + value).substring(sep_index + 1);
               if (sep_index > 0 && str_value.length > decimals) {
